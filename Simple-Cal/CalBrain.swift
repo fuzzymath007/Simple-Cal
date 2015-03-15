@@ -51,8 +51,10 @@ class CalBrain {
         if(!ops.isEmpty){
             var remainingOps = ops
             let op = remainingOps.removeLast()
+            println(op)
             switch op {
             case .Operand(let operand):
+                println(operand)
                 return (operand, remainingOps)
             case  .UnaryOperation(_, let operation):
                 let operandEvaluation = evaluate(remainingOps)
@@ -61,9 +63,13 @@ class CalBrain {
                 }
             case .BinaryOperaitot(_, let operation):
                 let op1Evaluation = evaluate(remainingOps)
+                println(remainingOps)
                 if let operand1 = op1Evaluation.result{
+                    println(operand1)
                     let op2Evaluation = evaluate(op1Evaluation.remainingOps)
+                    println(op2Evaluation)
                     if let operand2 = op2Evaluation.result{
+                        println(operation(operand1, operand2))
                         return (operation(operand1, operand2), op2Evaluation.remainingOps)
                     }
                 }
