@@ -13,9 +13,11 @@ class ViewController: UIViewController {
     
     var userIsTypingANumber = false
     
+    var brain = CalBrain()
+    
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
-        println("digit = \(digit)")
+       // println("digit = \(digit)")
         if userIsTypingANumber{
         display.text = display.text! + digit
         }else{
@@ -24,37 +26,26 @@ class ViewController: UIViewController {
         }
     }
     
-    var operandStack = Array<Double>()
-    
     @IBAction func operate(sender: UIButton) {
-        
-        let operation = sender.currentTitle!
-        if userIsTypingANumber {
+        if userIsTypingANumber{
             enter()
         }
-        switch operation{
-        case "×": preformOperation({ $0 * $1 })
-        case "÷": preformOperation({$1 / $0})
-        case "+": preformOperation({$0 + $1})
-        case "−": preformOperation({$1 - $0})
-        default: break
-        }
-    }
-    
-    func preformOperation(operation: (Double, Double) -> Double ){
-        
-        if operandStack.count >= 2 {
-            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-            enter()
+        if let operation = sender.currentTitle{
+            if let result = brain.performOperation(operation){
+                displayValue = result
+            } else {
+                displayValue = 0
             }
+        }
     }
-
     
     @IBAction func enter() {
         userIsTypingANumber = false
-        operandStack.append(displayValue)
-        println("operandStack = \(operandStack)")
-        
+        if let result = brain.pushOperand(displayValue) {
+            displayValue = result
+        } else {
+            displayValue = 0
+        }
     }
    
     
