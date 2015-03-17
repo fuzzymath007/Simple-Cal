@@ -10,7 +10,7 @@ import Foundation
 
 class CalBrain {
     
-    private enum Op: Printable{
+     private enum Op: Printable{
         case Operand(Double)
         case UnaryOperation(String, Double -> Double)
         case BinaryOperaitot(String, (Double, Double) -> Double)
@@ -43,8 +43,11 @@ class CalBrain {
         learnOp(Op.BinaryOperaitot("+", +))
         learnOp(Op.BinaryOperaitot("−") { $1 - $0 })
         learnOp(Op.UnaryOperation("√", sqrt))
+        learnOp(Op.UnaryOperation("sin", sin))
+        learnOp(Op.UnaryOperation("cos", cos))
 
     }
+    
     
     private func evaluate(ops: [Op]) -> (result: Double?, remainingOps: [Op]){
         
@@ -95,5 +98,11 @@ class CalBrain {
             opStack.append(operation)
         }
         return evaluate()
+    }
+    
+    func clearStack() {
+        opStack = []
+        println(opStack)
+        
     }
 }

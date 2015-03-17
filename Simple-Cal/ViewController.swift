@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class ViewController: UIViewController {
     @IBOutlet weak var display: UILabel!
@@ -16,14 +17,23 @@ class ViewController: UIViewController {
     var brain = CalBrain()
     
     @IBAction func appendDigit(sender: UIButton) {
+        var currentDisplay = display.text!
         let digit = sender.currentTitle!
        // println("digit = \(digit)")
         if userIsTypingANumber{
-        display.text = display.text! + digit
+            if (digit == ".") && (currentDisplay.rangeOfString(".") != nil){
+                return
+            }else{
+                display.text = display.text! + digit
+            }
         }else{
             display.text = digit
             userIsTypingANumber = true
         }
+    }
+    @IBAction func clearButton(sender: UIButton) {
+        displayValue = 0
+        brain.clearStack()
     }
     
     @IBAction func operate(sender: UIButton) {
