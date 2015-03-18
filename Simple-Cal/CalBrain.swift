@@ -14,6 +14,7 @@ class CalBrain {
         case Operand(Double)
         case UnaryOperation(String, Double -> Double)
         case BinaryOperaitot(String, (Double, Double) -> Double)
+        case ConstantOperation(String, () -> Double)
         
         var description: String {
             get{
@@ -24,6 +25,8 @@ class CalBrain {
                         return "\(symbol)"
                 case .BinaryOperaitot(let symbol, _):
                         return "\(symbol)"
+                case .ConstantOperation(let symbol, _):
+                    return "\(symbol)"
                 }
             }
         }
@@ -45,6 +48,7 @@ class CalBrain {
         learnOp(Op.UnaryOperation("√", sqrt))
         learnOp(Op.UnaryOperation("sin", sin))
         learnOp(Op.UnaryOperation("cos", cos))
+        learnOp(Op.ConstantOperation("π", { M_PI } ))
 
     }
     
@@ -59,6 +63,9 @@ class CalBrain {
             case .Operand(let operand):
                 println(operand)
                 return (operand, remainingOps)
+            case .ConstantOperation(_, let operation):
+                let constantOperation = evaluate(remainingOps)
+                return(operation(), remainingOps)
             case  .UnaryOperation(_, let operation):
                 let operandEvaluation = evaluate(remainingOps)
                 if let operand = operandEvaluation.result{
@@ -101,7 +108,8 @@ class CalBrain {
     }
     
     func clearStack() {
-        opStack = []
+        var newStack = [Op]()
+        opStack = newStack
         println(opStack)
         
     }
