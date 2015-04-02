@@ -53,7 +53,7 @@ class ViewController: UIViewController {
     
     @IBAction func enter() {
         userIsTypingANumber = false
-        if let result = brain.pushOperand(displayValue) {
+        if let result = brain.pushOperand(displayValue!) {
             displayValue = result
         } else {
             displayValue = 0
@@ -62,12 +62,21 @@ class ViewController: UIViewController {
     }
    
     
-        var displayValue: Double{
+        var displayValue: Double?{
             get {
-                return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+                if let displayText = display.text{
+                    if let displayNumber = NSNumberFormatter().numberFromString(displayText){
+                        return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+                }
+                }
+                 return nil
             }
             set {
-                display.text = "\(newValue)"
+                if (newValue != nil){
+                    display.text = "\(newValue)"
+                } else{
+                    display.text = "0"
+                }
                 userIsTypingANumber = false
                 historyView.text = brain.showHistory()
         }

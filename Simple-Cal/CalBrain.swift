@@ -15,6 +15,7 @@ class CalBrain {
         case UnaryOperation(String, Double -> Double)
         case BinaryOperaitot(String, (Double, Double) -> Double)
         case ConstantOperation(String, () -> Double)
+        case Varable(String)
         
         var description: String {
             get{
@@ -27,6 +28,8 @@ class CalBrain {
                         return "\(symbol)"
                 case .ConstantOperation(let symbol, _):
                     return "\(symbol)"
+                case .Varable(let symbol):
+                    return symbol
                 }
             }
         }
@@ -83,6 +86,8 @@ class CalBrain {
                         return (operation(operand1, operand2), op2Evaluation.remainingOps)
                     }
                 }
+            case .Varable(let symbol):
+                return(nil,remainingOps)
             }
         }
         return (nil, ops)
@@ -99,6 +104,12 @@ class CalBrain {
         return evaluate()
     }
     
+    func pushOperand(symbol: String) -> Double? {
+        opStack.append(Op.Operand(symbol))
+        return evaluate()
+        
+    }
+    
     func performOperation(symbol: String) -> Double?{
         
         if let operation = knownOps[symbol]{
@@ -113,7 +124,6 @@ class CalBrain {
         println(opStack)
         
     }
-    
     
     func showHistory() -> String? {
         return " ".join(opStack.map{ "\($0)" })
