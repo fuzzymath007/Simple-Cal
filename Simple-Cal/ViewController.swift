@@ -12,6 +12,8 @@ import Foundation
 class ViewController: UIViewController {
     @IBOutlet weak var display: UILabel!
     
+    @IBOutlet weak var historyView: UILabel!
+    
     var userIsTypingANumber = false
     
     var brain = CalBrain()
@@ -56,6 +58,7 @@ class ViewController: UIViewController {
         } else {
             displayValue = 0
         }
+
     }
    
     
@@ -66,6 +69,7 @@ class ViewController: UIViewController {
             set {
                 display.text = "\(newValue)"
                 userIsTypingANumber = false
+                historyView.text = brain.showHistory()
         }
     }
 

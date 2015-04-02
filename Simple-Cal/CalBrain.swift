@@ -113,4 +113,11 @@ class CalBrain {
         println(opStack)
         
     }
+    
+    
+    func showHistory() -> String? {
+        return " ".join(opStack.map{ "\($0)" })
+        
+    }
+    
 }
